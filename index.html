@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bruma – Diário de Enxaqueca</title>
+  <meta name="description" content="Registre crises, identifique gatilhos e leve dados reais para o seu neurologista. O app de enxaqueca feito para o Brasil." />
+  <meta name="theme-color" content="#5E35B1" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Bruma – Diário de Enxaqueca" />
+  <meta property="og:description" content="Registre crises, identifique gatilhos e leve dados reais para o seu neurologista." />
+  <meta property="og:type" content="website" />
+
+  <style>
+    /* ── Reset & base ─────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:       #5E35B1;
+      --purple-dark:  #4527A0;
+      --purple-light: #EDE7F6;
+      --purple-mid:   #B39DDB;
+      --accent:       #7E57C2;
+      --text:         #1A1A2E;
+      --text-muted:   #6B6B80;
+      --bg:           #FAFAFA;
+      --white:        #FFFFFF;
+      --border:       #E8E4F0;
+      --radius:       16px;
+      --radius-sm:    10px;
+      --shadow:       0 4px 24px rgba(94,53,177,0.10);
+      --shadow-lg:    0 12px 48px rgba(94,53,177,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Nav ──────────────────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250,250,250,0.85);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--purple);
+    }
+
+    .nav-logo .icon {
+      width: 32px;
+      height: 32px;
+      background: var(--purple);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .nav-links a:hover { color: var(--purple); }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+    }
+
+    /* ── Sections shared ─────────────────────────────────────────────────── */
+    section { padding: 96px 24px; }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    h1, h2, h3 { line-height: 1.2; }
+
+    /* ── Hero ─────────────────────────────────────────────────────────────── */
+    #hero {
+      background: linear-gradient(160deg, var(--purple-light) 0%, var(--white) 60%);
+      padding-top: 100px;
+      padding-bottom: 80px;
+      text-align: center;
+    }
+
+    .hero-orb {
+      width: 80px;
+      height: 80px;
+      background: var(--purple);
+      border-radius: 22px;
+      margin: 0 auto 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-lg);
+      font-size: 36px;
+    }
+
+    #hero h1 {
+      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    #hero h1 span { color: var(--purple); }
+
+    .hero-sub {
+      margin: 20px auto 0;
+      max-width: 560px;
+      font-size: 1.15rem;
+      color: var(--text-muted);
+    }
+
+    .hero-cta {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--purple);
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 28px;
+      border-radius: 50px;
+      box-shadow: 0 6px 20px rgba(94,53,177,0.35);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(94,53,177,0.45);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      color: var(--purple);
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 14px 24px;
+      border-radius: 50px;
+      border: 1.5px solid var(--purple-mid);
+      transition: background 0.15s;
+    }
+
+    .btn-secondary:hover { background: var(--purple-light); }
+
+    .hero-badge {
+      margin-top: 24px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* ── Stats strip ──────────────────────────────────────────────────────── */
+    .stats-strip {
+      background: var(--purple);
+      padding: 32px 24px;
+    }
+
+    .stats-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: white;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.75);
+      margin-top: 4px;
+    }
+
+    @media (max-width: 480px) {
+      .stats-inner { grid-template-columns: 1fr; gap: 16px; }
+    }
+
+    /* ── Features ─────────────────────────────────────────────────────────── */
+    #features { background: var(--white); }
+
+    #features h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .features-lead {
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: 60px;
+      font-size: 1.05rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .feature-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--purple-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+
+    .feature-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* ── How it works ─────────────────────────────────────────────────────── */
+    #how {
+      background: linear-gradient(180deg, var(--bg) 0%, var(--purple-light) 100%);
+    }
+
+    #how h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .how-lead {
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: 56px;
+      font-size: 1.05rem;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 32px;
+      counter-reset: steps;
+    }
+
+    .step {
+      counter-increment: steps;
+      position: relative;
+      padding-left: 0;
+    }
+
+    .step-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--purple);
+      color: white;
+      font-weight: 800;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .step h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .step p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* ── Premium ──────────────────────────────────────────────────────────── */
+    #premium {
+      background: var(--purple);
+      color: white;
+    }
+
+    #premium h2 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+    .premium-sub {
+      color: rgba(255,255,255,0.75);
+      max-width: 480px;
+      margin-bottom: 48px;
+      font-size: 1.05rem;
+    }
+
+    .premium-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .premium-item {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .premium-item-icon { font-size: 20px; flex-shrink: 0; }
+
+    .premium-item-text strong {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 2px;
+    }
+
+    .premium-item-text span {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .premium-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 50px;
+      padding: 8px 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    .btn-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      color: var(--purple);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 28px;
+      border-radius: 50px;
+      margin-top: 24px;
+      transition: opacity 0.15s;
+    }
+
+    .btn-white:hover { opacity: 0.9; }
+
+    /* ── Privacy Policy ───────────────────────────────────────────────────── */
+    #privacidade {
+      background: var(--white);
+    }
+
+    #privacidade h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.015em;
+      margin-bottom: 10px;
+    }
+
+    .privacy-updated {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+    }
+
+    .privacy-body {
+      max-width: 760px;
+    }
+
+    .privacy-body h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 32px 0 8px;
+      color: var(--purple);
+    }
+
+    .privacy-body p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .privacy-body ul {
+      padding-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    .privacy-body li {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 4px;
+    }
+
+    .privacy-highlight {
+      background: var(--purple-light);
+      border-left: 3px solid var(--purple);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 16px 20px;
+      margin: 24px 0;
+    }
+
+    .privacy-highlight p {
+      margin: 0;
+      color: var(--purple-dark);
+      font-weight: 600;
+    }
+
+    /* ── Support ──────────────────────────────────────────────────────────── */
+    #suporte {
+      background: var(--bg);
+    }
+
+    #suporte h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.015em;
+      margin-bottom: 10px;
+    }
+
+    .support-lead {
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: 48px;
+      font-size: 1rem;
+    }
+
+    .support-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-bottom: 56px;
+    }
+
+    .support-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+
+    .support-card .icon {
+      font-size: 28px;
+      margin-bottom: 14px;
+    }
+
+    .support-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .support-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+
+    .support-card a {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--purple);
+      border-bottom: 1px solid var(--purple-mid);
+      padding-bottom: 1px;
+      transition: border-color 0.15s;
+    }
+
+    .support-card a:hover { border-color: var(--purple); }
+
+    .faq { max-width: 760px; }
+
+    .faq h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+    }
+
+    .faq-item:last-child { border-bottom: none; }
+
+    .faq-q {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .faq-a {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── Footer ───────────────────────────────────────────────────────────── */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.6);
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.55);
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover { color: white; }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ──────────────────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="icon">🌫</div>
+      Bruma
+    </div>
+    <ul class="nav-links">
+      <li><a href="#features">Funcionalidades</a></li>
+      <li><a href="#premium">Premium</a></li>
+      <li><a href="#privacidade">Privacidade</a></li>
+      <li><a href="#suporte">Suporte</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-orb">🌫</div>
+    <h1>Diário de<br><span>Enxaqueca</span></h1>
+    <p class="hero-sub">
+      Registre crises, identifique seus gatilhos e leve dados reais
+      para o seu neurologista — tudo em um app simples e privado.
+    </p>
+    <div class="hero-cta">
+      <a href="https://apps.apple.com/br/app/bruma" class="btn-primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+        </svg>
+        Download na App Store
+      </a>
+      <a href="#features" class="btn-secondary">Ver funcionalidades →</a>
+    </div>
+    <p class="hero-badge">Grátis • Compra única para Premium • Sem anúncios • iOS 17+</p>
+  </div>
+</section>
+
+<!-- ── Stats strip ────────────────────────────────────────────────────── -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div>
+      <div class="stat-num">30M</div>
+      <div class="stat-label">brasileiros com enxaqueca</div>
+    </div>
+    <div>
+      <div class="stat-num">100%</div>
+      <div class="stat-label">privado — dados só no seu iPhone</div>
+    </div>
+    <div>
+      <div class="stat-num">0</div>
+      <div class="stat-label">anúncios, rastreadores ou servidores</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Features ──────────────────────────────────────────────────────── -->
+<section id="features">
+  <div class="container">
+    <div class="section-label">Funcionalidades</div>
+    <h2>Tudo que você precisa<br>para entender sua dor</h2>
+    <p class="features-lead">
+      Desenvolvido para pacientes brasileiros que convivem com enxaqueca
+      e querem deixar de reagir às crises para começar a preveni-las.
+    </p>
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <div class="feature-icon">⚡️</div>
+        <h3>Registro em 1 toque</h3>
+        <p>Inicie o rastreamento de uma crise instantaneamente — sem formulários. O Bruma cronometra a duração automaticamente até você finalizar.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Gatilhos e padrões</h3>
+        <p>Registre os possíveis gatilhos de cada crise. Com o tempo, o Bruma identifica quais aparecem com mais frequência e em que contexto.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">💊</div>
+        <h3>Controle de medicamentos</h3>
+        <p>Registre o que tomou, a dose e o horário. Veja se o medicamento ajudou e acompanhe o uso de abortivos ao longo do mês.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📄</div>
+        <h3>Relatório para o neurologista</h3>
+        <p>Gere um PDF completo com o histórico de crises, intensidade, gatilhos e medicamentos para levar direto à sua consulta.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🌦️</div>
+        <h3>Correlação climática</h3>
+        <p>O Bruma registra automaticamente pressão, temperatura e umidade no momento de cada crise para revelar se o clima influencia sua enxaqueca.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⌚️</div>
+        <h3>Apple Watch e Widget</h3>
+        <p>Inicie ou finalize uma crise direto do pulso com o Apple Watch. O widget na tela inicial garante acesso com um único toque.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>100% privado e offline</h3>
+        <p>Todos os seus dados ficam no iPhone. O Bruma funciona sem conta, sem servidor e sem conexão com a internet.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🌿</div>
+        <h3>Streak de dias sem crise</h3>
+        <p>Acompanhe sua evolução com um contador de dias consecutivos sem dor. Uma forma simples de celebrar o progresso.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── How it works ───────────────────────────────────────────────────── -->
+<section id="how">
+  <div class="container">
+    <div class="section-label">Como funciona</div>
+    <h2>Simples de usar,<br>poderoso com o tempo</h2>
+    <p class="how-lead">
+      Quanto mais você registra, mais o Bruma consegue revelar os padrões
+      que estão por trás das suas crises.
+    </p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Registre cada crise</h3>
+        <p>Um toque inicia o rastreamento. Depois, adicione intensidade, localização, gatilhos e remédios que tomou.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Veja os padrões</h3>
+        <p>Após algumas semanas, os gráficos mostram seus principais gatilhos, horários mais críticos e como o clima e os preventivos afetam sua dor.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Leve dados à consulta</h3>
+        <p>Gere um relatório em PDF com o histórico completo e apresente ao seu neurologista. Dados reais aceleram o diagnóstico e o ajuste do tratamento.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Reduza as crises</h3>
+        <p>Ao conhecer seus gatilhos, você pode evitá-los. Ao ver sua resposta aos preventivos, você e seu médico tomam decisões melhores.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Premium ────────────────────────────────────────────────────────── -->
+<section id="premium">
+  <div class="container">
+    <div class="section-label" style="color: rgba(255,255,255,0.6);">Bruma Premium</div>
+    <h2>Análise completa.<br>Uma única compra.</h2>
+    <p class="premium-sub">Sem assinatura. Sem cobrança mensal. Você paga uma vez e usa para sempre.</p>
+
+    <div class="premium-grid">
+      <div class="premium-item">
+        <div class="premium-item-icon">📊</div>
+        <div class="premium-item-text">
+          <strong>Ranking de gatilhos</strong>
+          <span>Veja quais gatilhos aparecem com mais frequência e em que % das suas crises.</span>
+        </div>
+      </div>
+      <div class="premium-item">
+        <div class="premium-item-icon">📅</div>
+        <div class="premium-item-text">
+          <strong>Padrão semanal</strong>
+          <span>Descubra em quais dias da semana você tem mais crises.</span>
+        </div>
+      </div>
+      <div class="premium-item">
+        <div class="premium-item-icon">🕐</div>
+        <div class="premium-item-text">
+          <strong>Horários críticos</strong>
+          <span>Identifique em quais períodos do dia sua dor é mais frequente.</span>
+        </div>
+      </div>
+      <div class="premium-item">
+        <div class="premium-item-icon">📈</div>
+        <div class="premium-item-text">
+          <strong>Evolução da intensidade</strong>
+          <span>Veja se as crises estão melhorando ou piorando ao longo do tempo.</span>
+        </div>
+      </div>
+      <div class="premium-item">
+        <div class="premium-item-icon">🌦️</div>
+        <div class="premium-item-text">
+          <strong>Correlação climática</strong>
+          <span>Descubra se chuva, pressão baixa ou calor influenciam sua enxaqueca.</span>
+        </div>
+      </div>
+      <div class="premium-item">
+        <div class="premium-item-icon">💊</div>
+        <div class="premium-item-text">
+          <strong>Resposta a preventivos</strong>
+          <span>Veja como a frequência de crises mudou desde que iniciou o medicamento preventivo.</span>
+        </div>
+      </div>
+      <div class="premium-item">
+        <div class="premium-item-icon">📄</div>
+        <div class="premium-item-text">
+          <strong>Relatório PDF</strong>
+          <span>Gere e compartilhe relatórios de 30, 90 ou 180 dias para o neurologista.</span>
+        </div>
+      </div>
+      <div class="premium-item">
+        <div class="premium-item-icon">📤</div>
+        <div class="premium-item-text">
+          <strong>Exportação CSV</strong>
+          <span>Exporte todos os dados brutos para análise própria ou compartilhar com seu médico.</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <span class="premium-badge">✦ Compra única • Sem assinatura • Sem renovação automática</span><br>
+      <a href="https://apps.apple.com/br/app/bruma" class="btn-white">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+        </svg>
+        Baixar Bruma
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Privacy Policy ─────────────────────────────────────────────────── -->
+<section id="privacidade">
+  <div class="container">
+    <div class="section-label">Política de Privacidade</div>
+    <h2>Sua privacidade é<br>a nossa prioridade</h2>
+    <p class="privacy-updated">Última atualização: junho de 2026</p>
+
+    <div class="privacy-body">
+
+      <div class="privacy-highlight">
+        <p>🔒 Resumo direto: o Bruma não coleta, não armazena e não transmite nenhum dado seu para servidores externos. Tudo fica no seu dispositivo.</p>
+      </div>
+
+      <h3>1. Quem somos</h3>
+      <p>O Bruma é um aplicativo iOS desenvolvido por Camile Ancines. Esta Política de Privacidade descreve como o app trata os dados dos usuários.</p>
+
+      <h3>2. Dados coletados</h3>
+      <p>O Bruma <strong>não coleta nenhum dado pessoal identificável</strong>. Não há cadastro, login, nome, e-mail ou qualquer informação que permita identificar o usuário.</p>
+      <p>Os dados inseridos no app — como registros de crises, intensidade, gatilhos e medicamentos — são armazenados exclusivamente no banco de dados local do dispositivo (via SwiftData / iCloud privado do próprio usuário, se habilitado).</p>
+
+      <h3>3. Dados de saúde</h3>
+      <p>O Bruma armazena informações de saúde inseridas manualmente pelo usuário (dores de cabeça, medicamentos, gatilhos). Esses dados:</p>
+      <ul>
+        <li>Ficam armazenados localmente no iPhone ou no iCloud privado do usuário</li>
+        <li>Não são compartilhados com terceiros</li>
+        <li>Não são acessados pela desenvolvedora do app</li>
+        <li>São excluídos permanentemente ao desinstalar o app</li>
+      </ul>
+
+      <h3>4. iCloud</h3>
+      <p>Se o usuário tiver o iCloud ativo, os dados podem ser sincronizados entre dispositivos do mesmo ID Apple via iCloud privado (<em>CloudKit private database</em>). Esses dados são criptografados pela Apple e acessíveis exclusivamente pelo titular da conta iCloud. A desenvolvedora não tem acesso a esses dados.</p>
+
+      <h3>5. Dados climáticos</h3>
+      <p>Para registrar condições climáticas no momento de uma crise, o Bruma consulta a API pública Open-Meteo (<a href="https://open-meteo.com" style="color: var(--purple)">open-meteo.com</a>) com a localização aproximada do dispositivo. Essa requisição:</p>
+      <ul>
+        <li>É feita somente quando o usuário registra uma crise</li>
+        <li>Envia apenas coordenadas geográficas para obter dados meteorológicos</li>
+        <li>Não transmite nenhum dado pessoal ou de identificação</li>
+      </ul>
+
+      <h3>6. Localização</h3>
+      <p>O Bruma pode solicitar acesso à localização do dispositivo exclusivamente para buscar informações climáticas locais no momento de uma crise. A localização não é armazenada e não é compartilhada.</p>
+
+      <h3>7. Compras in-app</h3>
+      <p>As transações de compra do Bruma Premium são processadas exclusivamente pela Apple via StoreKit. O app não coleta dados de pagamento, número de cartão ou informações financeiras de nenhum tipo.</p>
+
+      <h3>8. Análise e rastreamento</h3>
+      <p>O Bruma <strong>não utiliza</strong> nenhuma ferramenta de análise, rastreamento ou publicidade de terceiros (como Firebase, Amplitude, Mixpanel, Facebook SDK, Google Analytics, etc.).</p>
+
+      <h3>9. Crianças</h3>
+      <p>O Bruma não é direcionado a crianças menores de 13 anos. Não coletamos intencionalmente dados de crianças. Se você acredita que informações de uma criança foram inseridas no app, entre em contato para que possamos orientar a exclusão dos dados localmente.</p>
+
+      <h3>10. Alterações nesta política</h3>
+      <p>Eventuais alterações nesta política serão publicadas nesta página. O uso continuado do app após a publicação de alterações constitui aceite das novas condições.</p>
+
+      <h3>11. Contato</h3>
+      <p>Dúvidas sobre privacidade? Entre em contato: <a href="mailto:camileancines@gmail.com" style="color: var(--purple)">camileancines@gmail.com</a></p>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Support ────────────────────────────────────────────────────────── -->
+<section id="suporte">
+  <div class="container">
+    <div class="section-label">Suporte</div>
+    <h2>Estamos aqui para ajudar</h2>
+    <p class="support-lead">Tem uma dúvida, encontrou um problema ou tem uma sugestão? Fale com a gente.</p>
+
+    <div class="support-grid">
+      <div class="support-card">
+        <div class="icon">✉️</div>
+        <h3>E-mail</h3>
+        <p>Para dúvidas, bugs ou sugestões de melhoria, envie um e-mail e responderemos em até 48 horas.</p>
+        <a href="mailto:camileancines@gmail.com">camileancines@gmail.com</a>
+      </div>
+
+      <div class="support-card">
+        <div class="icon">🔄</div>
+        <h3>Restaurar Premium</h3>
+        <p>Trocou de iPhone ou reinstalou o app? Para restaurar sua compra do Premium, abra o Bruma → Ajustes → Restaurar Compra.</p>
+        <a href="mailto:camileancines@gmail.com?subject=Restaurar%20Premium">Preciso de ajuda →</a>
+      </div>
+
+      <div class="support-card">
+        <div class="icon">🗑️</div>
+        <h3>Excluir meus dados</h3>
+        <p>Todos os dados do Bruma estão no seu iPhone. Para excluí-los permanentemente, basta desinstalar o app. Se usar iCloud, exclua também em Ajustes → Apple ID → iCloud → Gerenciar.</p>
+        <a href="mailto:camileancines@gmail.com?subject=Excluir%20dados">Preciso de ajuda →</a>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq">
+      <h3>Perguntas frequentes</h3>
+
+      <div class="faq-item">
+        <div class="faq-q">O Bruma é gratuito?</div>
+        <div class="faq-a">Sim. O Bruma é gratuito para baixar e usar. O Bruma Premium, que desbloqueia gráficos avançados, relatório PDF e exportação CSV, é uma compra única dentro do app — sem assinatura mensal.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Meus dados ficam seguros se eu trocar de iPhone?</div>
+        <div class="faq-a">Se o iCloud estiver ativado no seu dispositivo, os dados são sincronizados automaticamente. Ao fazer login no novo iPhone com o mesmo ID Apple e instalar o Bruma, tudo estará lá. Caso contrário, os dados não são transferidos automaticamente.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Posso usar o Bruma sem internet?</div>
+        <div class="faq-a">Sim. O Bruma funciona completamente offline. A única função que requer internet é a captura de dados climáticos ao registrar uma crise — e ela é opcional.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Como exporto meus dados para o médico?</div>
+        <div class="faq-a">Com o Bruma Premium, vá em Estatísticas → Relatório PDF. Escolha o período (30, 90 ou 180 dias) e toque em "Gerar relatório". O PDF pode ser compartilhado via WhatsApp, e-mail ou impresso.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">O Bruma está disponível para Android?</div>
+        <div class="faq-a">Por enquanto, o Bruma é exclusivo para iPhone (iOS 17+). Estamos avaliando uma versão para Android no futuro.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Posso cancelar a compra do Premium?</div>
+        <div class="faq-a">O Premium é uma compra única — não existe assinatura para cancelar. Se precisar de um reembolso, entre em contato com o suporte da Apple em reportaproblem.apple.com.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">🌫 Bruma</div>
+    <p style="font-size: 0.88rem;">Diário de Enxaqueca para iPhone</p>
+    <div class="footer-links">
+      <a href="#features">Funcionalidades</a>
+      <a href="#premium">Premium</a>
+      <a href="#privacidade">Política de Privacidade</a>
+      <a href="#suporte">Suporte</a>
+      <a href="mailto:camileancines@gmail.com">Contato</a>
+    </div>
+    <p class="footer-copy">© 2026 Camile Ancines. Feito com ☁️ no Brasil.</p>
+  </div>
+</footer>
+
+</body>
+</html>
